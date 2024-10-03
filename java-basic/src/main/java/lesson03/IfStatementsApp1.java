@@ -15,7 +15,5 @@ public class IfStatementsApp1 {
     } else {
       System.out.printf("bad, %d given", x);
     }
-
-
   }
 }
