@@ -1,6 +1,6 @@
 package lesson06;
 
-import lesson06.model.Person;
+import lesson06.model.Person17;
 import lesson06.model.User;
 
 public class JavaObjects2 {
@@ -26,7 +26,7 @@ public class JavaObjects2 {
     System.out.println(user4);
     registerUser(user4);
 
-    Person jim = new Person("Jim", 33);
+    Person17 jim = new Person17("Jim", 33);
 
   }
 
