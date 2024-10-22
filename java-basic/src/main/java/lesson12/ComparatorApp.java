@@ -52,6 +52,7 @@ public class ComparatorApp {
     System.out.println("-------");
     pizzas.sort(comparatorBySizePrice);
     pizzas.forEach(System.out::println);
+
   }
 
 

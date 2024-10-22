@@ -14,6 +14,7 @@ public class AppleAndOranges5 {
 
     BiFunction<Integer, List<Integer>, Long> counter =
       (center, distances) -> distances.stream()
+          .map(d -> center + d)
           .filter(x -> x >= s && x <= t)
           .count();
 
