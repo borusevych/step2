@@ -13,11 +13,11 @@ public class FlatMap {
         .map(x -> Stream.of(-x, x));
 //        .collect(Collectors.toUnmodifiableList());
 
-    Stream<Integer> list =
+    var list =
       List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
         .stream()
-        .flatMap(x -> Stream.of(-x, x));
-//        .collect(Collectors.toUnmodifiableList());
+        .flatMap(x -> Stream.of(-x, x))
+        .collect(Collectors.toUnmodifiableList());
 
     System.out.println(list);
   }

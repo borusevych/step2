@@ -10,6 +10,7 @@ public class AppleCosts {
         + '2' +
         " USD"
     );
+    System.out.printf("Apple costs %d USD", 2);
 
   }
 
