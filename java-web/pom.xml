@@ -39,6 +39,12 @@
             <artifactId>jetty-servlet</artifactId>
             <version>9.4.56.v20240826</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.33</version>
+        </dependency>
     </dependencies>
 
 </project>
