@@ -1,0 +1,31 @@
+INSERT INTO student (name, dob, group_id) VALUES ('Jim', 1942, 1);
+INSERT INTO student (name, dob, group_id) VALUES ('Jack', 1981, 2);
+INSERT INTO student (name, dob, group_id) VALUES ('Mary', 2000, 3);
+INSERT INTO student (name, dob, group_id) VALUES ('Helen', 2002, 5);
+INSERT INTO student (name, dob, group_id) VALUES ('Nate', 2001, 5);
+INSERT INTO student (name, dob, group_id) VALUES ('Jacky', 2002, 5);
+INSERT INTO student (name, dob, group_id) VALUES ('Olha', 2011, null);
+INSERT INTO student (name, dob, group_id) VALUES ('Alex', 1975, 6);
+INSERT INTO student (name, dob, group_id) VALUES ('Alex', 1975, 4);
+INSERT INTO student (name, dob, group_id) VALUES ('Tom', 2020, 7);
+INSERT INTO student (name, dob, group_id) VALUES ('Bill', 2015, null);
+
+INSERT INTO groupp (name, start) VALUES ('FS1', '2023-03-01');
+INSERT INTO groupp (name, start) VALUES ('FS2', '2023-04-01');
+INSERT INTO groupp (name, start) VALUES ('FS3', '2023-05-01');
+INSERT INTO groupp (name, start) VALUES ('FS4', '2023-06-01');
+INSERT INTO groupp (name, start) VALUES ('FS5', '2023-07-01');
+INSERT INTO groupp (name, start) VALUES ('FS6', '2023-08-01');
+INSERT INTO groupp (name, start) VALUES ('FS7', '2023-09-01');
+INSERT INTO groupp (name, start) VALUES ('FS8', '2024-05-09');
+
+INSERT INTO t (n) VALUES (1);
+INSERT INTO t (n) VALUES (2);
+INSERT INTO t (n) VALUES (3);
+INSERT INTO t (n) VALUES (4);
+INSERT INTO t (n) VALUES (5);
+INSERT INTO t (n) VALUES (6);
+INSERT INTO t (n) VALUES (7);
+INSERT INTO t (n) VALUES (9);
+INSERT INTO t (n) VALUES (10);
+INSERT INTO t (n) VALUES (11);
