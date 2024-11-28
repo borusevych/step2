@@ -8,7 +8,10 @@ public class ServerApp {
 
   public static void main(String[] args) throws Exception {
     Server server = new Server(8080);
-    History history = new InMemoryHistory();
+    History history =
+//      new InMemoryHistory();
+//    new HistoryInDatabase(sql1.Conn.make(System.getenv("DB_URL")));
+    new HistoryInDatabase(sql1.Conn.make("jdbc:postgresql://localhost:5432/fs10"));
 
     TemplateEngine te = new TemplateEngine("tpl");
 

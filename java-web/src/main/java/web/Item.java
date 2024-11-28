@@ -7,9 +7,13 @@ public class Item {
   String line;
   LocalDateTime time;
 
-  public Item(String line) {
+  public Item(String line, LocalDateTime time) {
     this.line = line;
-    this.time = LocalDateTime.now();
+    this.time = time;
+  }
+
+  public Item(String line) {
+    this(line, LocalDateTime.now());
   }
 
   @Override

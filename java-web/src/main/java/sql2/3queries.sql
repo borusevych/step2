@@ -97,7 +97,7 @@ from student s
 
 select s.name, g.name, g.start
 from student s
-         cross join groupp g
+         cross join groupp g;
 
 
 
