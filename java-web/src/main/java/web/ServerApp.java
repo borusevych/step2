@@ -3,15 +3,25 @@ package web;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import sql1.Conn;
+
+import java.sql.Connection;
 
 public class ServerApp {
 
   public static void main(String[] args) throws Exception {
-    Server server = new Server(8080);
+    // structure analysis
+    DatabaseStructure.migrate(
+      "jdbc:postgresql://localhost:5432/fs10",
+      "postgres", "pg123456"
+    );
+    // now we 100% guarantee that structure is the most recent.
+
+    Connection conn = Conn.make("jdbc:postgresql://localhost:5432/fs10");
     History history =
 //      new InMemoryHistory();
 //    new HistoryInDatabase(sql1.Conn.make(System.getenv("DB_URL")));
-    new HistoryInDatabase(sql1.Conn.make("jdbc:postgresql://localhost:5432/fs10"));
+    new HistoryInDatabase(conn);
 
     TemplateEngine te = new TemplateEngine("tpl");
 
@@ -37,6 +47,7 @@ public class ServerApp {
 
     handler.addServlet(new ServletHolder(new RedirectServlet("/home")), "/*");
 
+    Server server = new Server(8080);
     server.setHandler(handler);
 
     server.start();
