@@ -21,7 +21,7 @@ public class ServerApp {
     History history =
 //      new InMemoryHistory();
 //    new HistoryInDatabase(sql1.Conn.make(System.getenv("DB_URL")));
-    new HistoryInDatabase(conn);
+      new HistoryInDatabase(conn);
 
     var loggedIn = new LoggedIn();
 
@@ -48,7 +48,10 @@ public class ServerApp {
     handler.addServlet(new ServletHolder(new StaticContentServlet("static0")), "/static/*");
     handler.addServlet(CookieGetServlet.class, "/cg");
     handler.addServlet(CookieSetServlet.class, "/cs");
-    handler.addServlet(CookieDeleteServlet.class, "/cd");
+    handler.addServlet(new ServletHolder(
+        new CookieDeleteServlet(loggedIn)
+      )
+      , "/logout");
     handler.addServlet(CookieIdentifyServlet.class, "/id");
 
     handler.addServlet(new ServletHolder(new LoginServlet(new UsersDatabase(), loggedIn, te)), "/login");
