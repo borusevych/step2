@@ -22,10 +22,13 @@ public class HistoryInDatabase implements History {
     """;
 
   private static final String sql_insert =
-    "INSERT INTO history (line, at) values (?, ?)";
+    "INSERT INTO history (line, at, who) values (?, ?, ?)";
 
   private static final String sql_select =
-    "SELECT line, at FROM history order by id";
+    "SELECT line, who, at FROM history order by id";
+
+  private static final String sql_select_by =
+    "SELECT line, who, at FROM history where who=? order by id";
 
   @SneakyThrows
   public HistoryInDatabase(Connection connection) {
@@ -40,7 +43,21 @@ public class HistoryInDatabase implements History {
     PreparedStatement st = connection.prepareStatement(sql_insert);
     st.setString(1, item.getLine());
     st.setObject(2, item.getTime());
+    st.setString(3, item.getWho());
     st.execute();
+  }
+
+  @SneakyThrows
+  private List<Item> parseRs(ResultSet rs) {
+    var xs = new ArrayList<Item>();
+    while (rs.next()) {
+      xs.add(new Item(
+        rs.getString("line"),
+        rs.getString("who"),
+        rs.getObject("at", LocalDateTime.class)
+      ));
+    }
+    return xs;
   }
 
   @SneakyThrows
@@ -48,13 +65,16 @@ public class HistoryInDatabase implements History {
   public List<Item> getAll() {
     PreparedStatement st = connection.prepareStatement(sql_select);
     ResultSet rs = st.executeQuery();
-    var xs = new ArrayList<Item>();
-    while (rs.next()) {
-      xs.add(new Item(
-        rs.getString("line"),
-        rs.getObject("at", LocalDateTime.class)
-      ));
-    }
-    return xs;
+    return parseRs(rs);
+  }
+
+  @SneakyThrows
+  @Override
+  public List<Item> getBy(String username) {
+    PreparedStatement st = connection.prepareStatement(sql_select_by);
+    st.setString(1, username);
+
+    ResultSet rs = st.executeQuery();
+    return parseRs(rs);
   }
 }

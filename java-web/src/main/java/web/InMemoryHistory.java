@@ -18,4 +18,9 @@ public class InMemoryHistory implements History {
     return Collections.unmodifiableList(data);
   }
 
+  @Override
+  public List<Item> getBy(String username) {
+    return data.stream().filter(x -> x.getWho().equals(username)).toList();
+  }
+
 }

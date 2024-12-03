@@ -23,6 +23,8 @@ public class ServerApp {
 //    new HistoryInDatabase(sql1.Conn.make(System.getenv("DB_URL")));
     new HistoryInDatabase(conn);
 
+    var loggedIn = new LoggedIn();
+
     TemplateEngine te = new TemplateEngine("tpl");
 
     ServletContextHandler handler = new ServletContextHandler();
@@ -34,17 +36,22 @@ public class ServerApp {
     CalculatorServlet calculatorServlet = new CalculatorServlet(calcService, history);
     handler.addServlet(new ServletHolder(calculatorServlet), "/calc");
 
-    CalcFormServlet calculatorServlet2 = new CalcFormServlet(calcService, history, te);
+    CalcFormServlet calculatorServlet2 = new CalcFormServlet(calcService, history, te, loggedIn);
     handler.addServlet(new ServletHolder(calculatorServlet2), "/calc_form");
 
-    HistoryServlet historyServlet = new HistoryServlet(history, te);
+    HistoryServlet historyServlet = new HistoryServlet(history, te, loggedIn);
     handler.addServlet(new ServletHolder(historyServlet), "/history");
 
     HomeServlet homeServlet = new HomeServlet(te);
     handler.addServlet(new ServletHolder(homeServlet), "/home");
 
     handler.addServlet(new ServletHolder(new StaticContentServlet("static0")), "/static/*");
+    handler.addServlet(CookieGetServlet.class, "/cg");
+    handler.addServlet(CookieSetServlet.class, "/cs");
+    handler.addServlet(CookieDeleteServlet.class, "/cd");
+    handler.addServlet(CookieIdentifyServlet.class, "/id");
 
+    handler.addServlet(new ServletHolder(new LoginServlet(new UsersDatabase(), loggedIn, te)), "/login");
     handler.addServlet(new ServletHolder(new RedirectServlet("/home")), "/*");
 
     Server server = new Server(8080);

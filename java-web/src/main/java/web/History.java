@@ -8,4 +8,6 @@ public interface History {
 
   List<Item> getAll();
 
+  List<Item> getBy(String username);
+
 }

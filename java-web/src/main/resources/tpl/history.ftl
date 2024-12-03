@@ -16,12 +16,16 @@
             <td>
                 time
             </td>
+            <td>
+                who
+            </td>
         </thead>
         <tbody>
             <#list items as row>
                 <tr>
                     <td>${row.line}</td>
                     <td>${row.time}</td>
+                    <td>${row.who}</td>
                 </tr>
             </#list>
         </tbody>

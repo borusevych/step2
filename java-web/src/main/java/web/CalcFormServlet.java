@@ -1,13 +1,13 @@
 package web;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Optional;
 
 public class CalcFormServlet extends HttpServlet {
@@ -15,11 +15,13 @@ public class CalcFormServlet extends HttpServlet {
   private final CalcService calcService;
   private final History history;
   private final TemplateEngine te;
+  private final LoggedIn loggedIn;
 
-  public CalcFormServlet(CalcService calcService, History history, TemplateEngine te) {
+  public CalcFormServlet(CalcService calcService, History history, TemplateEngine te, LoggedIn loggedIn) {
     this.calcService = calcService;
     this.history = history;
     this.te = te;
+    this.loggedIn = loggedIn;
   }
 
   @Override
@@ -34,7 +36,16 @@ public class CalcFormServlet extends HttpServlet {
       Optional.ofNullable(rq.getParameter("y")),
       Optional.ofNullable(rq.getParameter("op"))
     );
-    history.store(new Item(outcome));
+    Optional<String> maybeCookie = Optional.ofNullable(rq.getCookies())
+      .stream()
+      .flatMap(Arrays::stream)
+      .filter(c -> c.getName().equals("UID"))
+      .findFirst()
+      .map(Cookie::getValue);
+
+    String user = maybeCookie.flatMap(loggedIn::check).orElse("<< unknown >>");
+
+    history.store(new Item(outcome, user));
     HashMap<String, Object> data = new HashMap<>();
     data.put("result", outcome);
 
