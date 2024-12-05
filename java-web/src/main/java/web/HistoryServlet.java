@@ -1,12 +1,14 @@
 package web;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 public class HistoryServlet extends HttpServlet {
 
@@ -22,12 +24,7 @@ public class HistoryServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    Optional<String> maybeCookie = Optional.ofNullable(req.getCookies())
-      .stream()
-      .flatMap(Arrays::stream)
-      .filter(c -> c.getName().equals("UID"))
-      .findFirst()
-      .map(Cookie::getValue);
+    Optional<String> maybeCookie = Auth.getCookieValue(req);
 
     List<Item> items = new ArrayList<>();
 

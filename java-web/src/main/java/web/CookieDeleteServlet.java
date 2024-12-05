@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Optional;
 
 public class CookieDeleteServlet extends HttpServlet {
@@ -19,13 +18,7 @@ public class CookieDeleteServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    Optional<String> maybeCookie = Optional.ofNullable(req.getCookies())
-      .stream()
-      .flatMap(Arrays::stream)
-      .filter(c -> c.getName().equals("UID"))
-      .findFirst()
-      .map(Cookie::getValue);
-
+    Optional<String> maybeCookie = Auth.getCookieValue(req);
     maybeCookie.ifPresent(loggedIn::logout);
 
     Cookie c = new Cookie("UID", "");
