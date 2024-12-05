@@ -7,6 +7,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import sql1.Conn;
 
 import javax.servlet.DispatcherType;
+import javax.servlet.MultipartConfigElement;
 import java.sql.Connection;
 import java.util.EnumSet;
 
@@ -48,6 +49,10 @@ public class ServerApp {
     handler.addServlet(new ServletHolder(new CookieDeleteServlet(loggedIn)), "/logout");
     handler.addServlet(CookieIdentifyServlet.class, "/id");
     handler.addServlet(new ServletHolder(new LoginServlet(usersDb, loggedIn, te)), "/login");
+
+    ServletHolder sh = new ServletHolder(new UploadServlet(te));
+    sh.getRegistration().setMultipartConfig(new MultipartConfigElement("./buffer")); // tmp file
+    handler.addServlet(sh, "/up");
     handler.addServlet(new ServletHolder(new RedirectServlet("/home")), "/*");
 
     var ds = EnumSet.of(DispatcherType.REQUEST);
