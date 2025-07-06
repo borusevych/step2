@@ -1,4 +1,4 @@
-package web;
+package sql;
 
 import lombok.SneakyThrows;
 

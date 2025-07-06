@@ -1,4 +1,4 @@
-package web;
+package sql;
 
 import lombok.SneakyThrows;
 
@@ -6,21 +6,26 @@ import java.sql.ResultSet;
 import java.time.LocalDateTime;
 
 public class Messages {
-    private String sender;
-    private String receiver;
+    private int sender;
+    private String senderName;
+    private int receiver;
     private String message;
     private LocalDateTime date;
 
-    public Messages(String sender, String receiver, String message, LocalDateTime date) {
+    public Messages(int sender, String senderName, int receiver, String message, LocalDateTime date) {
         this.sender = sender;
+        this.senderName = senderName;
         this.receiver = receiver;
         this.message = message;
         this.date = date;
     }
-    public String getSender() {
+    public int getSender() {
         return sender;
     }
-    public String getReceiver() {
+    public String getSenderName() {
+        return senderName;
+    }
+    public int getReceiver() {
         return receiver;
     }
     public String getMessage() {
@@ -31,10 +36,16 @@ public class Messages {
     }
     @SneakyThrows
     public static Messages fromResultSet(ResultSet rs){
-        String sender = rs.getString("sender");
-        String receiver = rs.getString("receiver");
+        int sender = rs.getInt("sender");
+        String senderName = rs.getString("senderName");
+        int receiver = rs.getInt("receiver");
         String message = rs.getString("message");
         LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
-        return new Messages(sender, receiver, message, date);
+        return new Messages(sender, senderName, receiver, message, date);
+    }
+
+    @Override
+    public String toString() {
+        return "Message [sender=" + senderName + ", receiver=" + receiver + ", message=" + message + ", date=" + date + "]";
     }
 }

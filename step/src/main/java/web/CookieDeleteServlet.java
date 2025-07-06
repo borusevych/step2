@@ -1,5 +1,7 @@
 package web;
 
+import lombok.SneakyThrows;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -10,23 +12,30 @@ import java.util.Optional;
 
 public class CookieDeleteServlet extends HttpServlet {
 
-  private final LoggedIn loggedIn;
+    private final LoggedIn loggedIn;
 
-  public CookieDeleteServlet(LoggedIn loggedIn) {
-    this.loggedIn = loggedIn;
-  }
+    public CookieDeleteServlet(LoggedIn loggedIn) {
+        this.loggedIn = loggedIn;
+    }
 
-  @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    Optional<String> maybeCookie = Auth.getCookieValue(req);
-    maybeCookie.ifPresent(loggedIn::logout);
+    @SneakyThrows
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Optional<String> maybeCookie = Auth.getCookieValue(req);
+        maybeCookie.ifPresent(cookieValue -> {
+            try {
+                loggedIn.logout(cookieValue);
+            } catch (IOException e) {
+                throw new RuntimeException(e); // Либо обработать по-другому
+            }
+        });
 
-    Cookie c = new Cookie("UID", "");
-    c.setMaxAge(0); // seconds
+        Cookie c = new Cookie("UID", "");
+        c.setMaxAge(0); // seconds
 //    c.setDomain("");
 //    c.setPath("");
 
-    resp.addCookie(c);
-  }
-
+        resp.addCookie(c);
+        System.out.println("Logout successful");
+    }
 }

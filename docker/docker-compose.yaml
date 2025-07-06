@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: 'postgres'
-      POSTGRES_PASSWORD: 'pg123456'
+      POSTGRES_PASSWORD: 'postgres'
 #      DB_URL: 'jdbc:postgresql://localhost:5432/fs10'
     ports:
       - "5432:5432"
